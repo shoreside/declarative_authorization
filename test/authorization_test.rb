@@ -324,7 +324,7 @@ class AuthorizationTest < Test::Unit::TestCase
     reader.parse %(
       authorization do
         role :guest do
-          has_permission_on :permissions, :to => :test
+          has_permission_on :permissions, to: :test
         end
       end
     )
@@ -341,7 +341,7 @@ class AuthorizationTest < Test::Unit::TestCase
     reader.parse %(
       authorization do
         role :anonymous do
-          has_permission_on :permissions, :to => :test
+          has_permission_on :permissions, to: :test
         end
       end
     )

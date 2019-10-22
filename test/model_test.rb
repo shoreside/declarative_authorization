@@ -1475,7 +1475,7 @@ class ModelTest < Test::Unit::TestCase
 
     Authorization.current_user = MockUser.new(:test_role)
     assert(object = TestModelSecurityModel.create)
-    object.update_attributes(attr_2: 2)
+    object.update(attr_2: 2)
     object.reload
     assert_equal 2, object.attr_2
     object.destroy
@@ -1505,7 +1505,7 @@ class ModelTest < Test::Unit::TestCase
 
     Authorization.current_user = MockUser.new(:test_role_restricted)
     assert_raises Authorization::NotAuthorized do
-      object.update_attributes(attr_2: 2)
+      object.update(attr_2: 2)
     end
   end
 
@@ -1535,13 +1535,13 @@ class ModelTest < Test::Unit::TestCase
     end
     object = TestModelSecurityModel.create
     assert_raises Authorization::AttributeAuthorizationError do
-      object.update_attributes(attr: 2)
+      object.update(attr: 2)
     end
     object.reload
-    object.update_attributes(attr_2: 1)
+    object.update(attr_2: 1)
 
     assert_raises Authorization::AttributeAuthorizationError do
-      object.update_attributes(attr: 2)
+      object.update(attr: 2)
     end
   end
 
@@ -1651,7 +1651,7 @@ class ModelTest < Test::Unit::TestCase
 
     # TODO: before not checked yet
     # assert_raises Authorization::AuthorizationError do
-    #  object.update_attributes(:attr => 1)
+    #  object.update(:attr => 1)
     # end
   end
 
@@ -1687,7 +1687,7 @@ class ModelTest < Test::Unit::TestCase
     test_attr.role_symbols << :test_role
     Authorization.current_user = test_attr
     assert(object = TestModelSecurityModel.create(test_attrs: [test_attr]))
-    object.update_attributes(attr_2: 2)
+    object.update(attr_2: 2)
 
     without_access_control do
       object.reload
@@ -1722,7 +1722,7 @@ class ModelTest < Test::Unit::TestCase
     end
 
     with_user MockUser.new(:test_role, branch: test_attr.branch) do
-      test_model.update_attributes(params[:model_data])
+      test_model.update(params[:model_data])
     end
     without_access_control do
       assert_equal params[:model_data][:attr], test_model.reload.attr
